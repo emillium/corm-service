@@ -1,3 +1,8 @@
+# 1. DECLARE ARG BEFORE FROM: This tells Docker to expect the GO_VERSION argument.
+#    We set a default (e.g., 1.22) in case the CI doesn't pass it.
+ARG GO_VERSION=1.22
+ARG SERVICE_NAME=corm-service
+
 # Stage 1: Build the Go binary
 FROM golang:${GO_VERSION}-alpine AS builder
 # Set build arguments passed from the CI/CD pipeline
