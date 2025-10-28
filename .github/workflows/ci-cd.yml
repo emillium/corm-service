@@ -101,4 +101,5 @@ jobs:
           file: ./Dockerfile
           # Build arguments to inject version info into the binary
           build-args: |
+            GO_VERSION=${{ env.GO_VERSION }}
             VERSION=${{ github.sha }} 
