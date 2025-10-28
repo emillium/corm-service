@@ -32,6 +32,9 @@ RUN CGO_ENABLED=0 go build -trimpath -ldflags="-w -s -X main.Version=${VERSION}"
 # Using 'scratch' is the smallest possible base image, containing only the binary.
 FROM scratch AS final
 
+ARG SERVICE_NAME 
+ENV SERVICE_NAME=${SERVICE_NAME}
+
 # Optional: Use alpine for a slightly larger, but still tiny, base if you need tools like 'ca-certificates'
 # FROM alpine:latest AS final
 # RUN apk --no-cache add ca-certificates
