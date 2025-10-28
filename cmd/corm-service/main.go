@@ -93,7 +93,7 @@ func saveMailIngestHandler(w http.ResponseWriter, r *http.Request) {
 		// Graph API requires a 200 OK with the token echoed back as plain text.
 		w.Header().Set("Content-Type", "text/plain")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(validationToken))
+		_, _ = w.Write([]byte(validationToken))
 		log.Printf("INFO: Successfully handled Graph validation request. Token: %s", validationToken)
 		return
 	}
@@ -122,7 +122,7 @@ func saveMailIngestHandler(w http.ResponseWriter, r *http.Request) {
 		
 		// Return 200 OK for a successful synchronous ingestion
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status": "Ingested successfully"}`))
+		_, _ = w.Write([]byte(`{"status": "Ingested successfully"}`))
 		return
 	}
 
@@ -164,7 +164,7 @@ func saveMailIngestHandler(w http.ResponseWriter, r *http.Request) {
 
 		// Return 202 Accepted, as processing is asynchronous after acknowledgement.
 		w.WriteHeader(http.StatusCreated)
-		fmt.Fprintf(w, `{"status": "success", "id": "%s"}`, docID)
+		_, _ = fmt.Fprintf(w, `{"status": "success", "id": "%s"}`, docID)
 		return
 	}
 
@@ -232,7 +232,7 @@ func searchMailIngestHandler(w http.ResponseWriter, r *http.Request) {
 	totalHits := meta.Metrics.TotalRows
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{
 		"query": queryStr,
 		"total_hits": totalHits,
 		"results": hits,

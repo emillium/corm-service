@@ -129,18 +129,18 @@ func TestMain(m *testing.M) {
 	log.SetOutput(io.Discard) 
 	
 	// Set mock environment variables for the main function to pass the connection check
-	os.Setenv("COUCHBASE_CONN_STR", "mock")
-	os.Setenv("COUCHBASE_USERNAME", "mock")
-	os.Setenv("COUCHBASE_PASSWORD", "mock")
-	os.Setenv("COUCHBASE_BUCKET", "mock")
+	_ = os.Setenv("COUCHBASE_CONN_STR", "mock")
+	_ = os.Setenv("COUCHBASE_USERNAME", "mock")
+	_ = os.Setenv("COUCHBASE_PASSWORD", "mock")
+	_ = os.Setenv("COUCHBASE_BUCKET", "mock")
 	
 	exitCode := m.Run()
 	
 	// Clean up environment variables
-	os.Unsetenv("COUCHBASE_CONN_STR")
-	os.Unsetenv("COUCHBASE_USERNAME")
-	os.Unsetenv("COUCHBASE_PASSWORD")
-	os.Unsetenv("COUCHBASE_BUCKET")
+	_ = os.Unsetenv("COUCHBASE_CONN_STR")
+	_ = os.Unsetenv("COUCHBASE_USERNAME")
+	_ = os.Unsetenv("COUCHBASE_PASSWORD")
+	_ = os.Unsetenv("COUCHBASE_BUCKET")
 	
 	os.Exit(exitCode)
 }
@@ -215,7 +215,7 @@ func TestSaveMailIngestHandler(t *testing.T) {
 	// NOTE: Because the global 'bucket' is nil, the Upsert call will panic in the real handler. 
 	// We test the logic flow and acknowledge status.
 	t.Run("GraphNotificationSuccess", func(t *testing.T) {
-		os.Setenv("CLIENT_STATE", "secure-state")
+		_ = os.Setenv("CLIENT_STATE", "secure-state")
 		notification := GraphNotification{
 			Value: []struct {
 				SubscriptionID string "json:\"subscriptionId\""
@@ -232,7 +232,7 @@ func TestSaveMailIngestHandler(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPost, "/api/mail/save", bytes.NewReader(body))
 		rr := httptest.NewRecorder()
 		saveMailIngestHandler(rr, req)
-		os.Unsetenv("CLIENT_STATE")
+		_ = os.Unsetenv("CLIENT_STATE")
 		
 		// Due to the Couchbase call, this path is now 500 or panic without a mock connection. 
 		// Since we cannot mock gocb concrete types, we will assert the expected error status.
@@ -251,7 +251,7 @@ func TestSaveMailIngestHandler(t *testing.T) {
 	
 	// Case 6: Graph Notification Security Failure (ClientState mismatch)
 	t.Run("GraphNotificationSecurityFailure", func(t *testing.T) {
-		os.Setenv("CLIENT_STATE", "secure-state")
+		_ = os.Setenv("CLIENT_STATE", "secure-state")
 		notification := GraphNotification{
 			Value: []struct {
 				SubscriptionID string "json:\"subscriptionId\""
@@ -268,7 +268,7 @@ func TestSaveMailIngestHandler(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPost, "/api/mail/save", bytes.NewReader(body))
 		rr := httptest.NewRecorder()
 		saveMailIngestHandler(rr, req)
-		os.Unsetenv("CLIENT_STATE")
+		_ = os.Unsetenv("CLIENT_STATE")
 
 		if status := rr.Code; status != http.StatusForbidden {
 			t.Errorf("Expected status %v, got %v", http.StatusForbidden, status)
