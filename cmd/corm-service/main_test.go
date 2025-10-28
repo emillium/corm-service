@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bytes"
+	"fmt"
 	"io"
 	"os"
 	"strings"
@@ -36,10 +36,10 @@ func TestRun(t *testing.T) {
 	if !strings.Contains(output, expectedVersionPrefix) {
 		t.Errorf("run() output does not contain expected version string. Got: %q", output)
 	}
-    
-    // Check for another expected startup message
-    expectedRunMessage := "Service running..."
-    if !strings.Contains(output, expectedRunMessage) {
+
+	// Check for another expected startup message
+	expectedRunMessage := "Service running..."
+	if !strings.Contains(output, expectedRunMessage) {
 		t.Errorf("run() output does not contain expected startup message. Got: %q", output)
 	}
 }

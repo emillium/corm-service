@@ -15,15 +15,15 @@ func run() error {
 
 	fmt.Printf("Service Version: %s\n", Version)
 	fmt.Println("Service running...")
-	
+
 	// Simulate a successful startup
-	return nil 
+	return nil
 }
 
 func main() {
 	if err := run(); err != nil {
 		// Log the error before exiting
-		fmt.Printf("Fatal error during startup: %v\n", err) 
+		fmt.Printf("Fatal error during startup: %v\n", err)
 		os.Exit(1)
 	}
 }
