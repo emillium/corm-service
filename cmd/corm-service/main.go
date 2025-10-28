@@ -1,13 +1,29 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
-// Define a variable that will be set at compile time by the CI/CD pipeline
-// The default value is used if not set by the build flags.
-var Version = "dev" 
+// This variable is set by the CI/CD build process
+var Version = "dev"
+
+func run() error {
+	// 1. Load Configuration
+	// 2. Initialize Dependencies (Logger, Database)
+	// 3. Start Router/Server
+
+	fmt.Printf("Service Version: %s\n", Version)
+	fmt.Println("Service running...")
+	
+	// Simulate a successful startup
+	return nil 
+}
 
 func main() {
-    // Print the version for logging purposes
-    fmt.Printf("Hello, my-enterprise-service! Version: %s\n", Version)
-    // ... rest of your service starting logic ...
+	if err := run(); err != nil {
+		// Log the error before exiting
+		fmt.Printf("Fatal error during startup: %v\n", err) 
+		os.Exit(1)
+	}
 }
