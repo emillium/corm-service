@@ -2,9 +2,9 @@ name: Go CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ] # Runs on push to the main branch
+    branches: [ "master" ] # Runs on push to the master branch
   pull_request:
-    branches: [ "main" ] # Runs on any pull request targeting main
+    branches: [ "master" ] # Runs on any pull request targeting master
   workflow_dispatch: # Allows manual trigger from the GitHub UI
 
 env:
@@ -63,8 +63,8 @@ jobs:
     name: Build & Push Docker Image
     # Only run this stage if the lint-test stage passed
     needs: lint-test
-    # Only run on pushes to 'main' (not on PRs)
-    if: github.ref == 'refs/heads/main'
+    # Only run on pushes to 'master' (not on PRs)
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     
     steps:
