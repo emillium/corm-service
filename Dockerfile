@@ -9,7 +9,7 @@ FROM golang:${GO_VERSION}-alpine AS builder
 ARG VERSION
 ARG TARGETOS
 ARG TARGETARCH
-ARG SERVICE_NAME=corm-service
+ARG SERVICE_NAME
 
 # Set the working directory
 WORKDIR /app
