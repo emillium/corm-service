@@ -1,6 +1,6 @@
 # 1. DECLARE ARG BEFORE FROM: This tells Docker to expect the GO_VERSION argument.
 #    We set a default (e.g., 1.22) in case the CI doesn't pass it.
-ARG GO_VERSION=1.22
+ARG GO_VERSION=1.23
 
 # Stage 1: Build the Go binary
 FROM golang:${GO_VERSION}-alpine AS builder
@@ -17,6 +17,7 @@ WORKDIR /app
 # Copy go.mod and go.sum to cache dependencies
 COPY go.mod go.sum ./
 RUN go mod download
+RUN go mod vendor
 
 # Copy the rest of the source code
 COPY . .
@@ -26,7 +27,7 @@ COPY . .
 # -ldflags="-X main.Version=${VERSION}" embeds the Git SHA into the binary.
 RUN CGO_ENABLED=0 go build -trimpath -ldflags="-w -s -X main.Version=${VERSION}" \
     -o /app/${SERVICE_NAME} \
-    cmd/${SERVICE_NAME}/main.go
+    ./cmd/${SERVICE_NAME} 
 
 # Stage 2: Create a minimal production image
 # Using 'scratch' is the smallest possible base image, containing only the binary.

@@ -11,7 +11,7 @@ env:
   # Define the name of your executable
   SERVICE_NAME: "corm-service" 
   # Set the Go version for the entire workflow
-  GO_VERSION: '1.22'
+  GO_VERSION: '1.23'
   # Docker image name (replace 'your-docker-username' with your actual username/org)
   IMAGE_NAME: emillium/corm-service
 
