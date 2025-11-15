@@ -27,7 +27,7 @@ COPY . .
 # -ldflags="-X main.Version=${VERSION}" embeds the Git SHA into the binary.
 RUN CGO_ENABLED=0 go build -trimpath -ldflags="-w -s -X main.Version=${VERSION}" \
     -o /app/${SERVICE_NAME} \
-    cmd/${SERVICE_NAME}/main.go
+    ./cmd/${SERVICE_NAME} 
 
 # Stage 2: Create a minimal production image
 # Using 'scratch' is the smallest possible base image, containing only the binary.
